@@ -1,0 +1,10 @@
+FROM centos:7.4.1708
+
+RUN yum install -y openssh-server
+RUN sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+RUN sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+
+COPY ./server_init.sh /tmp
+COPY ./id_*.pub /tmp/
+
+RUN /tmp/server_init.sh
